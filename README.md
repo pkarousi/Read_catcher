@@ -2,7 +2,7 @@
 Read_catcher.pl requires two input files: A keyword file (.txt file) and a FASTQ (.fastq) or FASTA (.fasta)  file. 
 Read_catcher.pl and the two input files should be located in the same folder. A succesfull run can be done using the following command:
 
-perl Read_catcher.pl keywordfile.txt FASTA_file.fasta (provided) OR perl Read_catcher.pl keywordfile.txt FASTQ_file.fastq
+perl Read_catcher_v2.pl keywordfile.txt FASTA_file.fasta (provided) OR perl Read_catcher.pl keywordfile.txt FASTQ_file.fastq
 
 The keyword file needs to be a text file providing sence and antisence keywords, using tab as delimiter. The keywords can contain Perl regular expressions.
 
