@@ -155,7 +155,7 @@ while ($line=<INPUT2>) #searches hash values in one-line fasta and counts freq
 					if ($line=~$sense) 
   					{	
   						$freq1{$sense}++;
-  						print OUTPUT1 $line;
+  						print OUTPUT1 "$line\n";
   					}  				
    			}
 	}
@@ -178,7 +178,7 @@ while ($line=<INPUT2>) #searches hash values in one-line fasta and counts freq
   			if ($line=~$antisense) 
   				{		
   					$freq2{$antisense}++;  					
-  					print OUTPUT1 $line;
+  					print OUTPUT1 "$line\n";
   				}
    		}
 
@@ -207,7 +207,7 @@ print OUTPUT2 keys %duplicates;
     
 close INPUT3; close OUTPUT2;
 
-unlink $file2;
+#unlink $file2;
 
 open (OUTPUT0, ">", $file9); 
 open (FILE0, "<$loc/$file") || die "Couldn't open $file\n";
@@ -228,6 +228,7 @@ open (OUTPUT3, ">", "$loc/$file4");
 
 while ($line2=<INPUT4>) #creates fasta from selected one-line fasta
 	{
+		$line2=~s/^\s*$//; #removes empty lines
 		$line2=~s/\t/\n/g;
 		$line2=~s/\n\n/\n/g;
 		print OUTPUT3 $line2;
@@ -253,7 +254,43 @@ close INPUT14; close OUTPUT13;
 
 unlink $file9;
 
-open (FILE, "$loc/$file4") || die "Couldn't open $file4\n"; 
+print "Tag SELECTED fasta file? (Y/N)\n";
+
+while ($answer1= <STDIN>) 
+	{
+		chomp $answer1;
+		
+		if ($answer1 =~ m/^[Y]$/i)
+			{
+				open (FILE5, "<$loc/$file4") || die "Couldn't open $file4\n";
+				open (FILE6, ">", "$loc/$file8");
+
+				while ($line=<FILE5>) #substitutes > and tags lines.
+					{
+						$line=~s/\>/\>$name\_/g;
+						print FILE6 $line;
+					}
+				
+				close FILE5; close FILE6;
+			}
+			
+		elsif ($answer1 =~ m/^[N]$/i)
+			{ 
+				unlink $file8;
+			}
+		last; 
+	}
+
+
+print "Do you need FASTQ files? (Y/N)\n";
+
+while ($answer1= <STDIN>) 
+	{
+		chomp $answer1;
+		
+		if ($answer1 =~ m/^[Y]$/i)
+			{
+			open (FILE, "$loc/$file4") || die "Couldn't open $file4\n"; 
 open (FILE2, ">", "$loc/$file6");
 
 $header1, $sequence1, $sequence_length, $sequence_quality;
@@ -339,32 +376,7 @@ print FILE12 "$sequence_quality2\n";
 
 close FILE11; close FILE12;
 
-print "Tag SELECTED fasta file? (Y/N)\n";
 
-while ($answer1= <STDIN>) 
-	{
-		chomp $answer1;
-		
-		if ($answer1 =~ m/^[Y]$/i)
-			{
-				open (FILE5, "<$loc/$file4") || die "Couldn't open $file4\n";
-				open (FILE6, ">", "$loc/$file8");
-
-				while ($line=<FILE5>) #substitutes > and tags lines.
-					{
-						$line=~s/\>/\>$name\_/g;
-						print FILE6 $line;
-					}
-				
-				close FILE5; close FILE6;
-			}
-			
-		elsif ($answer1 =~ m/^[N]$/i)
-			{ 
-				unlink $file8;
-			}
-		last; 
-	}
 
 print "Tag SELECTED fastq file? (Y/N)\n";
 
@@ -395,3 +407,20 @@ while ($answer= <STDIN>)
 			}
 		last; 
 	}
+			}
+			
+		elsif ($answer1 =~ m/^[N]$/i)
+			{ 
+				unlink $file6;
+				unlink $file11;
+			}
+		last; 
+	}
+
+
+
+
+
+
+
+
