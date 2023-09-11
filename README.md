@@ -12,6 +12,8 @@ Next, the user will be asked to tag the FASTA or FASTQ records with the output f
 After a succesfull run, the following files will be produced:
 - OUTPUTFILENAME_freq.txt --> Provides sense and antisense keywords, and their frequency within FASTA and FASTQ files, listed in descending row based on their frequency.
 - OUTPUTFILENAME_selected.fasta --> Provides records in which at least one keyword is found in FASTA file format.
+
+If the user chooses to produce fastq files, the following file will be produced:
 - OUTPUTFILENAME_selected.fastq --> Provides records in which at least one keyword is found in FASTQ file format.
 
 If the user chooses to tag files, the following files will be also produced:
